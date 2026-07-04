@@ -1,0 +1,9 @@
+        new jBox('Notice', {
+            content: '시작중입니다...',
+            color: 'black'
+          });
+
+
+
+
+          https://github.com/wkdtldn/GoogleTranslaterApplication/tree/main/front

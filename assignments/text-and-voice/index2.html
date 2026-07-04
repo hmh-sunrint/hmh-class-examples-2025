@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+      <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+      
+      <script>
+          var firebaseConfig = {
+            apiKey: "YOUR_FIREBASE_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID",
+            measurementId: "YOUR_MEASUREMENT_ID"
+          };
+
+          firebase.initializeApp(firebaseConfig);
+          
+          const db = firebase.firestore();
+          db.collection('commands').get().then((result)=>{
+             const db = firebase.firestore();
+             result.forEach((result)=>{
+              var results = result;
+              console.log(results)
+              console.log(results.data());
+              const p = document.createElement('p');
+              const date = new Date();
+              const TIME_ZONE = 9 * 60 * 60 * 1000;
+              p.innerHTML = "[" + new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5) + "] {system} : " + "Ready to use.";
+              output.appendChild(p);
+          })}).catch((error) => {
+            const p = document.createElement('p');
+            const date = new Date();
+            const TIME_ZONE = 9 * 60 * 60 * 1000;
+            p.innerHTML = "[" + new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5) + "] {system} : " + "Failed to get data.";
+            output.appendChild(p);
+          });
+      </script>
+</head>
+<body>
+    <h2>AI flow</h2>
+    <p></p>
+    <input type="text" name="talk" id="talk">
+    <button id="btn">Talk</button>
+    <br>
+
+    // output div
+    <div id="output">
+        <p>Starting...</p>
+        
+    </div>
+    <style>
+        #output{
+            width: 100%;
+            height: fit-content;
+            background-color: #ccc;
+            border: 1px solid #000;
+        };
+
+    </style>
+
+    <script>
+        const output = document.getElementById('output');
+        const talk = document.getElementById('talk');
+        const btn = document.getElementById('btn');
+
+        btn.addEventListener('click', function(){
+            // output.innerHTML = talk.value;
+            // add a p in output div with talk.value
+            const p = document.createElement('p');
+            const date = new Date();
+            const TIME_ZONE = 9 * 60 * 60 * 1000;
+            p.innerHTML = "[" + new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5) + "] {user} : " + talk.value;
+            output.appendChild(p);
+            // clear input
+            talk.value = '';
+
+        })
+
+        // when user press enter key in input field, click the button
+        talk.addEventListener('keydown', function(e){
+            if(e.keyCode === 13){
+
+                if(talk.value == ''){
+                    alert('Please enter something');
+                }else{
+                    btn.click();
+                }
+
+                //btn.click();
+            }
+        })
+
+
+
+    </script>
+
+<!-- AI area -->
+    <script>
+            var answer;
+            function sendmsg(){
+            const machine = document.createElement('p');
+            const date = new Date();
+            const TIME_ZONE = 9 * 60 * 60 * 1000;
+            machine.innerHTML = "[" + new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5) + "] {machine} : " + answer;
+            output.appendChild(machine);
+            }
+    </script>
+
+</body>
+</html>

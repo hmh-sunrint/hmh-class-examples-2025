@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>택배 무인보관함 키오스크</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="kiosk-container">
+        <!-- 헤더 -->
+        <header class="kiosk-header">
+            <h1>📦 택배 무인보관함</h1>
+            <div class="current-time" id="currentTime"></div>
+        </header>
+
+        <!-- 메인 메뉴 화면 -->
+        <div class="screen" id="mainScreen">
+            <h2>서비스를 선택해주세요</h2>
+            <div class="menu-buttons">
+                <button class="menu-btn" onclick="showScreen('pickupScreen')">
+                    📥 택배 찾기
+                </button>
+                <button class="menu-btn" onclick="showScreen('depositScreen')">
+                    📤 택배 맡기기
+                </button>
+                <button class="menu-btn" onclick="showScreen('qrScreen')">
+                    📱 QR코드 인식
+                </button>
+                <button class="menu-btn" onclick="showScreen('storageScreen')">
+                    🗂️ 보관함 현황
+                </button>
+            </div>
+            <button class="admin-btn" onclick="showAdminLogin()">관리자</button>
+        </div>
+
+        <!-- 택배 찾기 화면 -->
+        <div class="screen hidden" id="pickupScreen">
+            <h2>택배 찾기</h2>
+            <div class="input-form">
+                <div class="input-group">
+                    <label>택배 번호</label>
+                    <input type="text" id="pickupNumber" placeholder="택배 번호를 입력하세요">
+                </div>
+                <div class="input-group">
+                    <label>비밀번호</label>
+                    <input type="password" id="pickupPassword" placeholder="비밀번호를 입력하세요">
+                </div>
+                <div class="button-group">
+                    <button class="action-btn" onclick="pickupPackage()">택배 찾기</button>
+                    <button class="back-btn" onclick="showScreen('mainScreen')">뒤로가기</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 택배 맡기기 화면 -->
+        <div class="screen hidden" id="depositScreen">
+            <h2>택배 맡기기</h2>
+            <div class="input-form">
+                <div class="input-group">
+                    <label>받는 사람 이름</label>
+                    <input type="text" id="recipientName" placeholder="받는 사람 이름">
+                </div>
+                <div class="input-group">
+                    <label>받는 사람 전화번호</label>
+                    <input type="tel" id="recipientPhone" placeholder="010-0000-0000">
+                </div>
+                <div class="input-group">
+                    <label>보관함 크기</label>
+                    <select id="packageSize">
+                        <option value="small">소형 (30cm x 20cm x 15cm)</option>
+                        <option value="medium">중형 (40cm x 30cm x 25cm)</option>
+                        <option value="large">대형 (50cm x 40cm x 35cm)</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button class="action-btn" onclick="depositPackage()">택배 맡기기</button>
+                    <button class="back-btn" onclick="showScreen('mainScreen')">뒤로가기</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR코드 인식 화면 -->
+        <div class="screen hidden" id="qrScreen">
+            <h2>QR코드 인식</h2>
+            <div class="qr-scanner">
+                <div class="scanner-frame">
+                    <div class="scanner-line"></div>
+                    <p>QR코드를 화면에 맞춰주세요</p>
+                </div>
+                <button class="action-btn" onclick="simulateQRScan()">QR 스캔 시뮬레이션</button>
+                <button class="back-btn" onclick="showScreen('mainScreen')">뒤로가기</button>
+            </div>
+        </div>
+
+        <!-- 보관함 현황 화면 -->
+        <div class="screen hidden" id="storageScreen">
+            <h2>보관함 현황</h2>
+            <div class="storage-grid" id="storageGrid">
+                <!-- 보관함들이 동적으로 생성됨 -->
+            </div>
+            <button class="back-btn" onclick="showScreen('mainScreen')">뒤로가기</button>
+        </div>
+
+        <!-- 관리자 로그인 모달 -->
+        <div class="modal hidden" id="adminModal">
+            <div class="modal-content">
+                <h3>관리자 로그인</h3>
+                <input type="password" id="adminPassword" placeholder="관리자 비밀번호">
+                <div class="modal-buttons">
+                    <button onclick="adminLogin()">로그인</button>
+                    <button onclick="hideAdminLogin()">취소</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 관리자 화면 -->
+        <div class="screen hidden" id="adminScreen">
+            <h2>관리자 모드</h2>
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h3>전체 보관함</h3>
+                    <span id="totalBoxes">0</span>
+                </div>
+                <div class="stat-card">
+                    <h3>사용 중</h3>
+                    <span id="usedBoxes">0</span>
+                </div>
+                <div class="stat-card">
+                    <h3>빈 보관함</h3>
+                    <span id="emptyBoxes">0</span>
+                </div>
+            </div>
+            <div class="package-list" id="packageList">
+                <!-- 택배 목록이 동적으로 생성됨 -->
+            </div>
+            <button class="back-btn" onclick="showScreen('mainScreen')">메인으로</button>
+        </div>
+
+        <!-- 알림 메시지 -->
+        <div class="notification hidden" id="notification">
+            <span id="notificationText"></span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

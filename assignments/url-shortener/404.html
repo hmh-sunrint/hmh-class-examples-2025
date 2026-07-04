@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.3.3/dist/jBox.all.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.3.3/dist/jBox.all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <script type="module" src="app.js"></script>
+    <title>이동중입니다...</title>
+    <h4>이동중입니다...</h4>
+    <h4 id="err">null로 이동중입니다...</h4>
+    <script>
+      function jalert(msg) {
+        new jBox("Notice", {
+          content: msg,
+          color: "black",
+          autoClose: 2300,
+        });
+      }
+    </script>
+  </body>
+</html>

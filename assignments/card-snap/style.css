@@ -1,0 +1,193 @@
+/* 전체 초기화 */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  line-height: normal;
+  letter-spacing: 1px;
+  user-select: none;
+}
+
+/* body 기본 스타일 */
+body {
+  font-family: "arial", sans-serif;
+  font-size: 16px;
+  /* 배경 그라데이션을 원하는 색상으로 변경하세요 */
+  background-image: linear-gradient(to left, #ff7e5f 0%, #feb47b 100%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 클릭 안내 메시지 스타일 */
+#clickbait {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1rem;
+  color: white;
+}
+
+/* 메인 카드 컨테이너 */
+.card {
+  /* 3D 효과를 위한 perspective 값을 설정하세요 */
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  width: 610px;
+  height: 250px;
+  cursor: pointer;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 플립 컨테이너 */
+.flip {
+  position: relative;
+}
+
+/* 카드 앞면 스타일 */
+.front {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  width: 610px;
+  height: 250px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* 앞면 배경 그라데이션을 설정하세요 */
+  background-image: linear-gradient(to right, #2f2e33 0%, #252538 52%, #8989ba 100%);
+  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  z-index: 2;
+  /* 애니메이션 transition을 설정하세요 */
+  transition: all 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0s;
+}
+
+/* 앞면 기본 상태 */
+.front.horizontal {
+  transform: rotateY(0deg);
+}
+
+/* 앞면 플립된 상태 */
+.front.horizontal.front-visible {
+  /* Y축으로 180도 회전하는 transform을 설정하세요 */
+  transform: rotateY(180deg);
+  z-index: 2;
+}
+
+/* 카드 뒷면 스타일 */
+.back {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  width: 610px;
+  height: 250px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* 뒷면 배경 그라데이션을 설정하세요 */
+  background-image: linear-gradient(to left, #46444e 0%, #393952 52%, #8989ba 100%);
+  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  z-index: 1;
+  transition: all 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0s;
+}
+
+/* 뒷면 기본 상태 */
+.back.horizontal {
+  transform: rotateY(-180deg);
+}
+
+/* 뒷면 플립된 상태 */
+.back.horizontal.back-visible {
+  /* Y축으로 0도 회전하는 transform을 설정하세요 */
+  transform: rotateY(0deg);
+  z-index: 2;
+}
+
+/* 카드 내용 중앙 정렬 */
+.card-content {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transform: translateY(-50%) translateZ(50px);
+  color: #fff;
+  text-align: center;
+}
+
+/* 카드 내용 왼쪽 정렬 */
+.card-content-left {
+  position: absolute;
+  top: 50%;
+  left: -25%;
+  width: 100%;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transform: translateY(-50%) translateZ(50px);
+  color: #fff;
+  text-align: center;
+}
+
+/* 카드 내용 오른쪽 정렬 */
+.card-content-right {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  width: 100%;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transform: translateY(-50%) translateZ(50px);
+  color: #fff;
+  text-align: center;
+}
+
+/* 제목 스타일 */
+.card-content h2 {
+  font-size: 25px;
+  margin-bottom: 5px;
+}
+
+/* 텍스트 스타일 */
+.card-content p {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* 공유 버튼 컨테이너 */
+.sharebtn {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  margin: 20px;
+}
+
+/* 공유 버튼 스타일 */
+.share-btn {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

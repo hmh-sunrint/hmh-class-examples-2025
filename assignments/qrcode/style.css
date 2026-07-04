@@ -1,0 +1,62 @@
+body {
+  /* 배경색 대신 얕은 파란색 그라데이션을 깔아줄게! */
+  background: linear-gradient(to bottom right, #e0f7fa, #bbdefb); /* 연한 하늘색에서 연한 파란색으로 */
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  min-height: 100vh; /* 화면 전체 높이를 사용 */
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+  max-width: 500px; /* 카드 최대 너비 설정 */
+  width: 100%;
+  border-radius: 15px; /* 카드 모서리를 둥글게 */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+.card-title {
+  color: #333;
+  font-weight: bold;
+  font-size: 2.2rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #555;
+}
+
+#generateBtn {
+  background-color: #007bff; /* 버튼 색상 */
+  border-color: #007bff;
+  font-size: 1.1rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+#generateBtn:hover {
+  background-color: #0056b3; /* 호버 시 색상 변경 */
+  border-color: #0056b3;
+}
+
+#qrcode {
+  background-color: #ffffff;
+  border-radius: 10px;
+  /* QR 코드가 너무 크지 않게 최대 너비 설정 */
+  max-width: 250px;
+  max-height: 250px;
+  display: flex; /* QR 코드를 중앙에 정렬하기 위해 flexbox 사용 */
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* QR 코드가 div를 넘어가지 않도록 */
+}
+
+/* QR 코드 라이브러리가 생성하는 canvas 또는 img 태그에 대한 스타일 */
+#qrcode canvas,
+#qrcode img {
+  max-width: 100%;
+  height: auto;
+  display: block; /* 이미지 하단 공백 제거 */
+}

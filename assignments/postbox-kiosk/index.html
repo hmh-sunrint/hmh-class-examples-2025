@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>택배 무인보관함 키오스크</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="kiosk-container">
+        <!-- 헤더 -->
+        <header class="kiosk-header">
+            <h1>📦 택배 무인보관함</h1>
+            <div class="current-time" id="currentTime"></div>
+        </header>
+
+        <!-- 메인 메뉴 화면 -->
+        <div class="screen" id="mainScreen">
+            <h2>서비스를 선택해주세요</h2>
+            <div class="menu-buttons">
+                <!-- TODO: 메뉴 버튼들을 만들어보셈 -->
+                <!-- 힌트: onclick 이벤트로 showScreen() 함수를 호출하면 돼 -->
+                <button class="menu-btn" onclick="showScreen('pickupScreen')">
+                    📥 택배 찾기
+                </button>
+                <!-- 나머지 버튼들도 만들어보셈 -->
+            </div>
+            <button class="admin-btn" onclick="showAdminLogin()">관리자</button>
+        </div>
+
+        <!-- 택배 찾기 화면 -->
+        <div class="screen hidden" id="pickupScreen">
+            <h2>택배 찾기</h2>
+            <div class="input-form">
+                <!-- TODO: 입력 필드들을 만들어보셈 -->
+                <!-- 택배 번호와 비밀번호 입력 필드가 필요해 -->
+                <div class="input-group">
+                    <label>택배 번호</label>
+                    <input type="text" id="pickupNumber" placeholder="택배 번호를 입력하세요">
+                </div>
+                <!-- 비밀번호 입력 필드도 만들어보셈 -->
+                
+                <div class="button-group">
+                    <!-- TODO: 택배 찾기 버튼과 뒤로가기 버튼을 만들어보셈 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 택배 맡기기 화면 -->
+        <div class="screen hidden" id="depositScreen">
+            <!-- TODO: 택배 맡기기 화면을 완성해보셈 -->
+            <!-- 받는 사람 이름, 전화번호, 보관함 크기 선택이 필요해 -->
+        </div>
+
+        <!-- QR코드 인식 화면 -->
+        <div class="screen hidden" id="qrScreen">
+            <h2>QR코드 인식</h2>
+            <div class="qr-scanner">
+                <div class="scanner-frame">
+                    <div class="scanner-line"></div>
+                    <p>QR코드를 화면에 맞춰주세요</p>
+                </div>
+                <!-- TODO: QR 스캔 버튼을 만들어보셈 -->
+            </div>
+        </div>
+
+        <!-- 보관함 현황 화면 -->
+        <div class="screen hidden" id="storageScreen">
+            <h2>보관함 현황</h2>
+            <div class="storage-grid" id="storageGrid">
+                <!-- 보관함들이 동적으로 생성됨 -->
+            </div>
+            <button class="back-btn" onclick="showScreen('mainScreen')">뒤로가기</button>
+        </div>
+
+        <!-- 관리자 로그인 모달 -->
+        <div class="modal hidden" id="adminModal">
+            <!-- TODO: 관리자 로그인 모달을 완성해보셈 -->
+        </div>
+
+        <!-- 관리자 화면 -->
+        <div class="screen hidden" id="adminScreen">
+            <!-- TODO: 관리자 화면을 완성해보셈 -->
+            <!-- 통계 카드들과 택배 목록이 필요해 -->
+        </div>
+
+        <!-- 알림 메시지 -->
+        <div class="notification hidden" id="notification">
+            <span id="notificationText"></span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

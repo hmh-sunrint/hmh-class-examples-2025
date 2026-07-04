@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8과제: 상품 상세 페이지</title>
+    <style>
+        /* 기본적인 스타일링을 위한 내부 CSS */
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        .product-container { max-width: 800px; margin: auto; padding: 20px; border: 1px solid #eee; }
+        .product-image { max-width: 100%; height: auto; display: block; margin-bottom: 20px; }
+        .features-list { list-style-type: disc; margin-left: 20px; }
+        .price { font-size: 1.5em; color: #e44d26; font-weight: bold; margin-bottom: 15px; }
+        .add-to-cart-form { margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ccc; }
+        .related-products a { margin-right: 10px; text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="product-container">
+        <!-- 문제: 상품의 이름을 가장 중요한 제목으로 표시하세요. (예: 프리미엄 무선 이어폰 X100) -->
+        <h1></h1>
+        
+        <!-- 문제: 상품 이미지를 추가하고, 적절한 alt 텍스트를 넣어주세요. -->
+        <!-- 힌트: <img src="/placeholder.svg?height=400&width=600" alt="상품 이미지 설명"> -->
+        <img src="/placeholder.svg" alt="" class="product-image">
+        
+        <!-- 문제: 상품에 대한 간략한 설명을 단락으로 작성하세요. -->
+        <p>
+            <!-- 여기에 상품 설명 내용을 작성하세요. -->
+        </p>
+        
+        <h2>주요 특징</h2>
+        <ul class="features-list">
+            <!-- 문제: 상품의 주요 특징 3가지 이상을 목록으로 작성하세요. -->
+            <li><!-- 특징 1 --></li>
+            <li><!-- 특징 2 --></li>
+            <li><!-- 특징 3 --></li>
+        </ul>
+        
+        <!-- 문제: 상품 가격을 굵게 표시하고, 적절한 클래스를 사용하여 스타일을 적용하세요. -->
+        <p class="price">가격: <strong><!-- 여기에 가격을 작성하세요. (예: 199,000원) --></strong></p>
+        
+        <!-- 문제: 수량 선택 입력 필드와 장바구니 추가 버튼을 포함하는 폼을 만드세요. -->
+        <form class="add-to-cart-form">
+            <label for="quantity">수량:</label>
+            <!-- 힌트: input type="number"를 사용하고, id, name, value, min, max 속성을 설정하세요. -->
+            <input type="number" id="quantity" name="quantity" value="1" min="1" max="10">
+            <!-- 힌트: button type="submit"을 사용하세요. -->
+            <button type="submit">장바구니에 추가</button>
+        </form>
+        
+        <div class="related-products">
+            <h2>관련 상품</h2>
+            <p>
+                <!-- 문제: 관련 상품 2개 이상을 링크로 추가하세요. (링크는 #으로 대체 가능) -->
+                <a href="#"><!-- 관련 상품 1 --></a>
+                <a href="#"><!-- 관련 상품 2 --></a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

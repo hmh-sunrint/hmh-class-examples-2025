@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"> <!-- 문서의 문자 인코딩을 UTF-8로 설정 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 반응형 웹을 위한 뷰포트 설정 -->
+    <title>8과제: 상품 상세 페이지</title> <!-- 웹 페이지의 제목 설정 -->
+    <style>
+        /* 기본적인 스타일링을 위한 내부 CSS */
+        body { 
+            font-family: Arial, sans-serif; /* 폰트 설정 */
+            margin: 20px; /* 바깥 여백 */
+            line-height: 1.6; /* 줄 간격 */
+        }
+        .product-container { 
+            max-width: 800px; /* 최대 너비 */
+            margin: auto; /* 가운데 정렬 */
+            padding: 20px; /* 안쪽 여백 */
+            border: 1px solid #eee; /* 테두리 */
+        }
+        .product-image { 
+            max-width: 100%; /* 이미지 최대 너비 100% */
+            height: auto; /* 높이 자동 조절 */
+            display: block; /* 블록 요소로 설정 */
+            margin-bottom: 20px; /* 아래쪽 여백 */
+        }
+        .features-list { 
+            list-style-type: disc; /* 목록 마커 스타일 */
+            margin-left: 20px; /* 왼쪽 여백 */
+        }
+        .price { 
+            font-size: 1.5em; /* 폰트 크기 */
+            color: #e44d26; /* 폰트 색상 */
+            font-weight: bold; /* 폰트 굵기 */
+            margin-bottom: 15px; /* 아래쪽 여백 */
+        }
+        .add-to-cart-form { 
+            margin-top: 20px; /* 위쪽 여백 */
+            padding-top: 15px; /* 위쪽 안쪽 여백 */
+            border-top: 1px dashed #ccc; /* 위쪽 점선 테두리 */
+        }
+        .related-products a { 
+            margin-right: 10px; /* 오른쪽 여백 */
+            text-decoration: none; /* 밑줄 제거 */
+            color: #007bff; /* 링크 색상 */
+        }
+    </style>
+</head>
+<body>
+    <div class="product-container">
+        <!-- 상품의 이름을 가장 중요한 제목으로 표시 -->
+        <h1>프리미엄 무선 이어폰 X100</h1>
+        
+        <!-- 상품 이미지를 추가하고, 적절한 alt 텍스트를 넣어줌 -->
+        <img src="/placeholder.svg?height=400&width=600" alt="프리미엄 무선 이어폰 X100" class="product-image">
+        
+        <!-- 상품에 대한 간략한 설명을 단락으로 작성 -->
+        <p>
+            최고의 음질과 편안한 착용감을 자랑하는 프리미엄 무선 이어폰 X100입니다. 
+            혁신적인 노이즈 캔슬링 기술로 몰입감 넘치는 청취 경험을 선사합니다.
+        </p>
+        
+        <h2>주요 특징</h2>
+        <ul class="features-list">
+            <!-- 상품의 주요 특징 3가지 이상을 목록으로 작성 -->
+            <li>최대 30시간 재생 가능한 배터리</li>
+            <li>액티브 노이즈 캔슬링 및 주변음 허용 모드</li>
+            <li>인체공학적 디자인으로 장시간 착용에도 편안함</li>
+            <li>블루투스 5.2 지원으로 안정적인 연결</li>
+            <li>IPX4 생활 방수 기능</li>
+        </ul>
+        
+        <!-- 상품 가격을 굵게 표시하고, 적절한 클래스를 사용하여 스타일을 적용 -->
+        <p class="price">가격: <strong>199,000원</strong></p>
+        
+        <!-- 수량 선택 입력 필드와 장바구니 추가 버튼을 포함하는 폼을 만듦 -->
+        <form class="add-to-cart-form">
+            <label for="quantity">수량:</label>
+            <input type="number" id="quantity" name="quantity" value="1" min="1" max="10">
+            <button type="submit">장바구니에 추가</button>
+        </form>
+        
+        <div class="related-products">
+            <h2>관련 상품</h2>
+            <p>
+                <!-- 관련 상품 2개 이상을 링크로 추가 -->
+                <a href="#">무선 충전 패드</a>
+                <a href="#">이어폰 케이스</a>
+                <a href="#">오디오 케이블</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

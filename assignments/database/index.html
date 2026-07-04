@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase 데이터베이스 실습</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Firebase 데이터베이스 실습</h1>
+        
+        <!-- 데이터 추가 섹션 -->
+        <div class="section">
+            <h2>1. 데이터 추가 (CREATE)</h2>
+            <input type="text" id="nameInput" placeholder="이름을 입력하세요">
+            <input type="text" id="emailInput" placeholder="이메일을 입력하세요">
+            <button onclick="addData()">데이터 추가</button>
+        </div>
+
+        <!-- 데이터 조회 섹션 -->
+        <div class="section">
+            <h2>2. 데이터 조회 (READ)</h2>
+            <button onclick="readAllData()">모든 데이터 조회</button>
+            <div id="dataList"></div>
+        </div>
+
+        <!-- 데이터 수정 섹션 -->
+        <div class="section">
+            <h2>3. 데이터 수정 (UPDATE)</h2>
+            <input type="text" id="updateId" placeholder="수정할 ID">
+            <input type="text" id="updateName" placeholder="새 이름">
+            <input type="text" id="updateEmail" placeholder="새 이메일">
+            <button onclick="updateData()">데이터 수정</button>
+        </div>
+
+        <!-- 데이터 삭제 섹션 -->
+        <div class="section">
+            <h2>4. 데이터 삭제 (DELETE)</h2>
+            <input type="text" id="deleteId" placeholder="삭제할 ID">
+            <button onclick="deleteData()">데이터 삭제</button>
+        </div>
+
+        <div id="message"></div>
+    </div>
+
+    <script src="script.js" type="module"></script>
+</body>
+</html>

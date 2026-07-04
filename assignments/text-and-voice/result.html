@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link rel="stylesheet" href="./css/bootstrap.min.css" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>프로젝트</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.3.3/dist/jBox.all.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.3.3/dist/jBox.all.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jBox/1.3.3/jBox.min.js"
+      integrity="sha512-XzceybCZuZTsEMbV/C1DbKSHwmO/iQ7qC7RHVs2ZPWMAQeoL8KGwBWptO4bemVpNPP8hI5w+oB+8xTyqq9o5aw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/toxicity"></script>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/picocss/1.5.10/pico.min.css" integrity="sha512-R4D8tIuJws1QxZAVEpeFxtKEw4iab4HuyVzofpiO19VmlBhXW5qdTCmD/+yYQ+nviYUgS2EywDnoNTaj+lpUfA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+    <script>
+      var firebaseConfig = {
+        apiKey: "YOUR_FIREBASE_API_KEY",
+        authDomain: "YOUR_PROJECT.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID",
+        measurementId: "YOUR_MEASUREMENT_ID",
+      };
+
+      firebase.initializeApp(firebaseConfig);
+
+      const db = firebase.firestore();
+      let results = {};
+      function init() {
+        jalert("Connecting to server...");
+        db.collection("commands")
+          .get()
+          .then((result) => {
+            const db = firebase.firestore();
+            result.forEach((result) => {
+              let temp;
+              temp = result.data().answer;
+
+              results[result.id] = temp;
+              const p = document.createElement("p");
+              const date = new Date();
+              const TIME_ZONE = 9 * 60 * 60 * 1000;
+              p.innerHTML =
+                "[" +
+                new Date(date.getTime() + TIME_ZONE)
+                  .toISOString()
+                  .replace("T", " ")
+                  .slice(0, -5) +
+                "] {system} : " +
+                "Command loaded successfully.";
+              output.appendChild(p);
+              arrange_data();
+            });
+          })
+          .catch((error) => {
+            const p = document.createElement("p");
+            const date = new Date();
+            const TIME_ZONE = 9 * 60 * 60 * 1000;
+            p.innerHTML =
+              "[" +
+              new Date(date.getTime() + TIME_ZONE)
+                .toISOString()
+                .replace("T", " ")
+                .slice(0, -5) +
+              "] {system} : " +
+              "Error caused while importing data from firestore db.";
+            output.appendChild(p);
+            console.warn(error);
+            console.warn("Failed to get data");
+            jalert("Failed to get data.");
+          });
+
+        function arrange_data() {
+          // results = results.split(",");
+          // results.pop();
+          console.log(results);
+        }
+      }
+      init();
+
+      function jalert(msg) {
+        new jBox("Notice", {
+          content: msg,
+          color: "black",
+          autoClose: 2700,
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <!-- 기본 ui -->
+    <div class="container">
+      <h2 class="fs-3 fw-bold my-3">AI flow</h2>
+      <button class="col btn btn-primary" id="voice">Recognize voice</button>
+      <div class="row">
+        <input
+          class="col form-control mb-4 me-4"
+          type="text"
+          name="talk"
+          id="talk"
+        />
+        <button
+          class="col btn btn-primary"
+          style="max-width: 60px !important; height: 40px"
+          id="btn"
+        >
+          Talk
+        </button>
+      </div>
+      <div class="row">
+        <button class="col btn btn-primary me-2" id="btn2">Reset</button>
+        <button class="col btn btn-primary me-2" id="btn3">Clear chat</button>
+        <button class="col btn btn-primary me-2" id="btn4">Refresh</button>
+        <button class="col btn btn-primary" id="btn5">Clear Console</button>
+      </div>
+      <div class="row">
+        <div class="my-3 bg-light p-3 rounded shadow shadow-sm" id="output">
+          <p class="fw-bold">Starting...</p>
+        </div>
+      </div>
+    </div>
+    <style>
+      p {
+        margin-top: 16px;
+        margin-bottom: 16px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        font-size: medium;
+        font-weight: 400;
+      }
+    </style>
+
+    <!-- 기존 음성인식 html / js 코드 -->
+
+    <div id="result"></div>
+    <script>
+      var interim_transcript = "";
+      var final_transcript = "";
+      var recognition = new webkitSpeechRecognition();
+      recognition.lang = "en-US";
+      // when user press voice button, start recognition
+      document.getElementById("voice").addEventListener("click", () => {
+        recognize();
+      });
+      // recognize voice function
+      function recognize() {
+        a = "";
+        talk.value = "";
+        topost = "";
+        toadd = "";
+        talk.disabled = true;
+        btn.disabled = true;
+        final_transcript = "";
+        interim_transcript = "";
+        recognition.start();
+        recognition.onresult = function (event) {
+          for (var i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              a = "";
+              final_transcript += event.results[i][0].transcript;
+              console.log(interim_transcript);
+              console.log(final_transcript);
+              jalert(final_transcript);
+              var a = final_transcript;
+              a = a.toString();
+              talk.value = a;
+              const p = document.createElement("p");
+              const date = new Date();
+              const TIME_ZONE = 9 * 60 * 60 * 1000;
+              p.innerHTML =
+                "[" +
+                new Date(date.getTime() + TIME_ZONE)
+                  .toISOString()
+                  .replace("T", " ")
+                  .slice(0, -5) +
+                "] {user} : " +
+                a;
+              output.appendChild(p);
+              aicheck(a);
+            } else {
+              a = "";
+              interim_transcript += event.results[i][0].transcript;
+              console.log(interim_transcript);
+              console.log(final_transcript);
+              jalert("Nothing detected.");
+              talk.disabled = false;
+            }
+          }
+        };
+      }
+      // when recognition ends, show the message on jbox and console what user said
+      recognition.onresult = function (event) {
+        var text = event.results[0][0].transcript;
+        console.log(text);
+        jalert(text);
+        // add a p in output div with talk.value
+        const p = document.createElement("p");
+        const date = new Date();
+        const TIME_ZONE = 9 * 60 * 60 * 1000;
+        p.innerHTML =
+          "[" +
+          new Date(date.getTime() + TIME_ZONE)
+            .toISOString()
+            .replace("T", " ")
+            .slice(0, -5) +
+          "] {user} : " +
+          text;
+        output.appendChild(p);
+        // check if the command exsists
+        aicheck(text);
+        // clear input
+        talk.value = "";
+      };
+    </script>
+
+    <!-- 기존 AI 코드 -->
+
+    <script>
+      const output = document.getElementById("output");
+      const talk = document.getElementById("talk");
+      const btn = document.getElementById("btn");
+
+      btn.addEventListener("click", function () {
+        // output.innerHTML = talk.value;
+        // add a p in output div with talk.value
+        const p = document.createElement("p");
+        const date = new Date();
+        const TIME_ZONE = 9 * 60 * 60 * 1000;
+        p.innerHTML =
+          "[" +
+          new Date(date.getTime() + TIME_ZONE)
+            .toISOString()
+            .replace("T", " ")
+            .slice(0, -5) +
+          "] {user} : " +
+          talk.value;
+        output.appendChild(p);
+        // check if the command exsists
+        aicheck(talk.value);
+        // clear input
+        talk.value = "";
+      });
+
+      // when user press enter key in input field, click the button
+      talk.addEventListener("keydown", function (e) {
+        if (e.keyCode === 13) {
+          if (talk.value == "" || talk.value == " ") {
+            alert("Please enter something");
+          } else {
+            btn.click();
+          }
+
+          //btn.click();
+        }
+      });
+    </script>
+
+    <!-- AI area -->
+    <script>
+      function sendmsg_machine(message) {
+        let answer = message;
+        const machine = document.createElement("p");
+        const date = new Date();
+        const TIME_ZONE = 9 * 60 * 60 * 1000;
+        machine.innerHTML =
+          "[" +
+          new Date(date.getTime() + TIME_ZONE)
+            .toISOString()
+            .replace("T", " ")
+            .slice(0, -5) +
+          "] {machine} : " +
+          answer;
+        output.appendChild(machine);
+      }
+      function sendmsg_system(message) {
+        let answer = message;
+        const system = document.createElement("p");
+        const date = new Date();
+        const TIME_ZONE = 9 * 60 * 60 * 1000;
+        system.innerHTML =
+          "[" +
+          new Date(date.getTime() + TIME_ZONE)
+            .toISOString()
+            .replace("T", " ")
+            .slice(0, -5) +
+          "] {system} : " +
+          answer;
+        output.appendChild(system);
+      }
+      function sendmsg_user(message) {
+        let answer = message;
+        const user = document.createElement("p");
+        const date = new Date();
+        const TIME_ZONE = 9 * 60 * 60 * 1000;
+        user.innerHTML =
+          "[" +
+          new Date(date.getTime() + TIME_ZONE)
+            .toISOString()
+            .replace("T", " ")
+            .slice(0, -5) +
+          "] {user} : " +
+          answer;
+        output.appendChild(user);
+      }
+      let badword_check;
+      function badword(msg) {
+        // The minimum prediction confidence.
+        const threshold = 0.9;
+
+        // Load the model. Users optionally pass in a threshold and an array of
+        // labels to include.
+        toxicity.load(threshold).then((model) => {
+          const sentences = msg;
+
+          model.classify(sentences).then((predictions) => {
+            // `predictions` is an array of objects, one for each prediction head,
+            // that contains the raw probabilities for each input along with the
+            // final prediction in `match` (either `false` or `true`).
+            // If neither prediction exceeds the threshold, `match` is `null`.
+            console.log(predictions);
+            badword_check = predictions;
+            post_ornot();
+          });
+        });
+      }
+
+      // when reset button clicked, delete all chat history
+      document.getElementById("btn2").addEventListener("click", () => {
+        document.getElementById("output").innerHTML = "";
+        // reset results variable and init() function
+        results = [];
+        init();
+        sendmsg_system("Resetting...");
+      });
+      // when user clicks clear, clear the chat logs
+      document.getElementById("btn3").addEventListener("click", function () {
+        document.getElementById("output").innerHTML = "";
+        sendmsg_system("Chat logs cleared.");
+        sendmsg_system("Ready to use.");
+      });
+
+      document.getElementById("btn4").addEventListener("click", function () {
+        location.reload();
+      });
+      document.getElementById("btn5").addEventListener("click", function () {
+        console.clear();
+        console.log("Deleted.");
+      });
+
+      let machine_answer = "";
+      function aicheck(cmd) {
+        // console.log(results.data().answer);
+        let input = cmd;
+        console.log(input);
+        think();
+
+        // sendmsg_machine(results[input] !==undefined ? results[input] : '')
+
+        // sendmsg_machine()
+      }
+
+      function think() {
+        // input에서 모든 특수문자 제거
+        let input = talk.value.replace(/[^a-zA-Z0-9]/g, " ");
+        console.log(input);
+        // input앞과 뒤의 공백 제거
+        input = input.trim();
+        console.log(input);
+        // input을 소문자로 변환
+        input = input.toLowerCase();
+        console.log(input);
+        // input_arr의 요소가 results의 key에 포함되어 있으면
+        if (results[input] !== undefined) {
+          // results의 key에 해당하는 value를 가져옴
+          machine_answer = results[input];
+          console.log(machine_answer);
+          // 가져온 value를 출력
+          sendmsg_machine(machine_answer);
+          talk.disabled = false;
+          btn.disabled = false;
+          // input을 초기화
+          talk.value = "";
+          input = "";
+          // input_arr 순회를 종료
+          machine_answer = "";
+          return;
+        }
+        // input_arr 순회가 종료되었는데도 machine_answer가 정의되지 않았으면 (input_arr의 요소가 results의 key에 포함되어 있지 않으면)
+        if (machine_answer === "" || machine_answer === undefined) {
+          // if machine_answer === undefined, ask user if the machine_answer is intended or just a typo
+          // results의 key에 포함되어 있지 않다는 메시지 출력
+          sendmsg_machine("Sorry, I couldn't understand.");
+          askuser_intended(talk.value);
+
+          // input을 초기화
+          talk.value = "";
+          machine_answer = undefined;
+        }
+
+        machine_answer = "";
+      }
+
+      // make button with text in output div
+      function makebutton(text) {
+        const button = document.createElement("button");
+        button.innerHTML = text;
+        button.classList.add("btn");
+        output.appendChild(button);
+      }
+      let topost;
+      var toadd;
+      function askuser_intended(value) {
+        machine_answer = undefined;
+        toadd = value;
+        talk.disabled = true;
+        btn.disabled = true;
+        sendmsg_machine("Was ' " + value + " ' intended? or Just an typo?");
+        const button = document.createElement("button");
+        button.innerHTML = "Intended";
+        button.classList.add("btn");
+        output.appendChild(button);
+        button.addEventListener("click", function () {
+          sendmsg_user("Yes");
+          sendmsg_machine(
+            "Okay, Would you like to add ' " + value + " ' as a new command?"
+          );
+          // add the input to results
+          // results[talk.value] = talk.value;
+          button.remove();
+          button2.remove();
+          const button3 = document.createElement("button");
+          button3.innerHTML = "Yes";
+          button3.classList.add("btn");
+          output.appendChild(button3);
+          button3.addEventListener("click", function () {
+            sendmsg_user("Yes");
+            sendmsg_machine(
+              "Okay, If you say ' " + value + ", ' What should I say?"
+            );
+            button3.remove();
+            button4.remove();
+            talk.disabled = true;
+            btn.disabled = true;
+            topost = prompt(
+              "Okay, If you say ' " + value + ", ' What should I say?"
+            );
+            console.log(topost);
+            if (topost === "cancel") {
+              toadd = "";
+              sendmsg_user("Just cancel it");
+              sendmsg_machine("Okay, I will forget that.");
+              talk.value = "";
+              button3.remove();
+              button4.remove();
+              talk.disabled = false;
+              btn.disabled = false;
+            }
+            // if the answer is null or user clicks cancel, do it again until the user gives the answer
+            while (topost === null || topost === undefined || topost === "") {
+              topost = prompt(
+                "Okay, If you say ' " + value + ", ' What should I say?"
+              );
+              console.log(topost);
+            }
+            if (topost === "cancel") {
+              toadd = "";
+              sendmsg_user("Just cancel it");
+              sendmsg_machine("Okay, I will forget that.");
+              talk.value = "";
+              button3.remove();
+              button4.remove();
+              talk.disabled = false;
+              btn.disabled = false;
+            } else {
+              sendmsg_user("You should say : " + topost);
+              badword(topost);
+            }
+          });
+          const button4 = document.createElement("button");
+          button4.innerHTML = "No";
+          button4.classList.add("btn");
+          output.appendChild(button4);
+          button4.addEventListener("click", function () {
+            sendmsg_user("Just cancel it");
+            sendmsg_machine("Okay, I will forget that.");
+            // clear input
+            toadd = "";
+            value = "";
+            button3.remove();
+            button4.remove();
+            talk.disabled = false;
+            btn.disabled = false;
+          });
+        });
+        const button2 = document.createElement("button");
+        button2.innerHTML = "Just Typo";
+        button2.classList.add("btn");
+        output.appendChild(button2);
+        button2.addEventListener("click", function () {
+          talk.disabled = false;
+          btn.disabled = false;
+          toadd = "";
+          sendmsg_user("Just cancel it");
+          sendmsg_machine("Okay, I will forget that.");
+          // clear input
+          talk.value = "";
+          button.remove();
+          button2.remove();
+        });
+      }
+      function post_ornot() {
+        console.log(
+          badword_check[0].results[0].match === true ||
+            badword_check[1].results[0].match === true ||
+            badword_check[2].results[0].match === true ||
+            badword_check[3].results[0].match === true ||
+            badword_check[4].results[0].match === true ||
+            badword_check[5].results[0].match === true ||
+            badword_check[6].results[0].match === true
+        );
+
+        if (
+          badword_check[0].results[0].match == true ||
+          badword_check[1].results[0].match == true ||
+          badword_check[2].results[0].match == true ||
+          badword_check[3].results[0].match == true ||
+          badword_check[4].results[0].match == true ||
+          badword_check[5].results[0].match == true ||
+          badword_check[6].results[0].match == true
+        ) {
+          sendmsg_machine("Sorry, I can't say that. The word is not allowed.");
+          talk.value = "";
+          talk.disabled = false;
+          btn.disabled = false;
+          toadd = "";
+        } else {
+          sendmsg_machine("I love it! I'll upload it right away.");
+          console.log("uploading...");
+          upload_command(topost);
+        }
+      }
+
+      function upload_command(cmd) {
+        console.log(cmd);
+        // input에서 모든 특수문자 제거
+        toadd = toadd.replace(/[^a-zA-Z0-9]/g, " ");
+        console.log(toadd);
+        // toadd앞과 뒤의 공백 제거
+        toadd = toadd.trim();
+        console.log(toadd);
+        // toadd을 소문자로 변환
+        toadd = toadd.toLowerCase();
+        console.log(toadd);
+        const db = firebase.firestore();
+        db.collection("commands")
+          .doc(toadd)
+          .set({
+            answer: topost,
+          })
+          .then(function (result) {
+            console.log("uploaded!");
+            console.log(result);
+            talk.value = "";
+            talk.disabled = false;
+            btn.disabled = false;
+            topost = "";
+            toadd = "";
+          })
+          .catch(function (error) {
+            console.log(error);
+            talk.value = "";
+            talk.disabled = false;
+            btn.disabled = false;
+            topost = "";
+            toadd = "";
+          });
+        talk.disabled = false;
+        btn.disabled = false;
+      }
+
+      function sendmsg_system_with_makebutton(field) {}
+    </script>
+  </body>
+</html>

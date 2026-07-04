@@ -1,0 +1,158 @@
+const str = 'Hello, World, Javascript';
+
+console.log('1: ' + str.includes('Hello'));
+console.log('2: ' + str.includes('hello'));
+console.log('3: ' + str.includes(','));
+console.log('4: ' + str.includes('World'));
+console.log('5: ' + str.includes('Java'));
+
+
+
+let answer_list = [];
+db.collection('answer').get().then((result)=>{
+    const db = firebase.firestore();
+    result.forEach((result)=>{
+     answer_list = answer_list + result.id + ",";
+     console.log(result);
+     console.log(result.data());
+     const p = document.createElement('p');
+     const date = new Date();
+     const TIME_ZONE = 9 * 60 * 60 * 1000;
+     p.innerHTML = "[" + new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5) + "] {system} : " + "Answers loaded successfully.";
+     output.appendChild(p);
+     arrange_answer_data();
+ })}).catch((error) => {
+   const p = document.createElement('p');
+   const date = new Date();
+   const TIME_ZONE = 9 * 60 * 60 * 1000;
+   p.innerHTML = "[" + new Date(date.getTime() + TIME_ZONE).toISOString().replace('T', ' ').slice(0, -5) + "] {system} : " + "Error caused while importing data from firestore db.";
+   output.appendChild(p);
+   console.warn(error)
+   console.warn("Failed to get data");
+ });
+ 
+ function arrange_answer_data(){
+
+    answer_list = answer_list.split(",");
+    results.pop();
+    console.log(answer_list);
+
+};
+
+
+            let check = results[input] !==undefined ? results[input] : '';
+
+            if(check == ''){
+                sendmsg_machine("Sorry, I don't understand.");
+            }else{
+                sendmsg_machine(results[input]);
+            };
+
+
+
+
+
+
+
+            //음성인식
+
+            userasking();
+      function demoNoticeDefault() {
+        // 사용자가 "친구야" 라고 말할때까지 계속 음성인식 활성화
+        // recognition.lang = "ko-KR";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.start();
+
+        // 음성인식 결과가 나올때마다 호출되는 콜백함수
+        recognition.onresult = function (event) {
+          var interim_transcript = "";
+          var final_transcript = "";
+          for (var i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              final_transcript += event.results[i][0].transcript;
+            } else {
+              interim_transcript += event.results[i][0].transcript;
+            }
+          }
+          // 음성인식 결과가 나올때마다 화면에 출력
+          document.getElementById("result").innerHTML =
+            final_transcript + interim_transcript;
+          console.log(final_transcript);
+          if (
+            final_transcript == "친구야." ||
+            final_transcript == "친구야" ||
+            final_transcript == "친구야." ||
+            final_transcript == "친구의." ||
+            final_transcript == "친구야?" ||
+            final_transcript == "친구예요."
+          ) {
+            recognition.stop();
+            new jBox("Notice", {
+              content: "안녕하세요. 무엇을 도와드릴까요?",
+              color: "black",
+            });
+
+            const message = new SpeechSynthesisUtterance(
+              "안녕하세요. 무엇을 도와드릴까요?"
+            );
+            window.speechSynthesis.speak(message);
+
+            userasking();
+          }
+        };
+      }
+
+      function userasking() {
+        var recognition = new webkitSpeechRecognition();
+
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.start();
+
+        // 음성인식 결과가 나올때마다 호출되는 콜백함수
+        recognition.onresult = function (event) {
+          var interim_transcript = "";
+          var final_transcript = "";
+          for (var i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              final_transcript += event.results[i][0].transcript;
+            } else {
+              interim_transcript += event.results[i][0].transcript;
+            }
+          }
+          // 음성인식 결과가 나올때마다 화면에 출력
+          document.getElementById("result").innerHTML =
+            final_transcript + interim_transcript;
+          console.log(final_transcript);
+          if (
+            final_transcript == "" ||
+            final_transcript == "새 탭 열어줘." ||
+            final_transcript == "새로운 탭." ||
+            final_transcript == "새로운 탭 열어줘." ||
+            final_transcript == "새로운 탭 열어주셔요." ||
+            final_transcript == "새 탭 열어." ||
+            final_transcript == "새 탭을 열어줘."
+          ) {
+            recognition.stop();
+            new jBox("Notice", {
+              content: "새 탭을 열었어요.",
+              color: "black",
+            });
+            window.open("https://google.com", "_blank");
+
+            const message = new SpeechSynthesisUtterance("새 탭을 열었습니다.");
+            window.speechSynthesis.speak(message);
+            userasking();
+          }
+        };
+
+        // 만약 음성인식이 자동으로 꺼지면, 다시 음성인식 활성화
+        recognition.onend = function () {
+          userasking();
+        };
+      }
+
+      recognition.onend = function () {
+        demoNoticeDefault();
+      };
