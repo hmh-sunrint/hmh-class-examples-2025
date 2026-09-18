@@ -5,7 +5,7 @@
 - [ ] `index.html`, `script.js`, `app.js` 파일이 `mission/` 폴더에 존재하는가?
 
 ## 2. Contact 링크 테스트
-- [ ] `index.html`에서 Contact 링크의 `href`가 실제 이메일 주소(`mailto:...@gmail.com`)로 변경되어 있는가?
+- [ ] `index.html`에서 Contact 링크의 `href`가 공개용 예시 주소(`mailto:contact@example.com`)로 유지되어 있고 개인 이메일이 포함되지 않았는가?
 
 ## 3. Firebase 모듈 import 테스트
 - [ ] `script.js`와 `app.js`에서 `initializeApp`, `getFirestore`, `doc`, `setDoc`, `getDoc` 등 Firebase 모듈이 올바르게 import되어 있는가?

@@ -9,6 +9,6 @@
 3. `qrcode`
 4. `url-shortener`
 5. `html-basic`
+6. `kiosk`
 
 `database`, `text-and-voice`는 현재 별도 정답 폴더 없이 과제/가이드 자료 안에 설명이 포함되어 있습니다.
-

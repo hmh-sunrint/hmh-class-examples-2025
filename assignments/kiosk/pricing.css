@@ -1,0 +1,59 @@
+/*
+ * Pricing table styles
+ */
+
+ .pricing-header {
+    max-width: 700px;
+  }
+
+  .card-deck .card {
+    min-width: 220px;
+  }
+
+  .border-top { border-top: 1px solid #e5e5e5; }
+  .border-bottom { border-bottom: 1px solid #e5e5e5; }
+
+  .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+  .display-4 {
+    font-size: 3.5rem;
+  }
+  @media (max-width: 768px) {
+    .display-4 {
+      font-size: 2.5rem;
+    }
+  }
+
+  .container {
+    max-width: 960px;
+  }
+
+  .pricing-header {
+    margin-bottom: 2rem;
+  }
+
+  .card-deck {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* 카드들을 중앙 정렬 */
+  }
+
+  .card-deck .card {
+    flex: 1 0 30%; /* 3개씩 한 줄에 표시되도록 유연하게 설정 */
+    margin: 0.5rem; /* 카드 간 간격 */
+    max-width: 30%; /* 최대 너비 설정 */
+  }
+
+  @media (max-width: 992px) {
+    .card-deck .card {
+      flex: 1 0 45%; /* 태블릿에서는 2개씩 한 줄에 표시 */
+      max-width: 45%;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .card-deck .card {
+      flex: 1 0 90%; /* 모바일에서는 1개씩 한 줄에 표시 */
+      max-width: 90%;
+    }
+  }

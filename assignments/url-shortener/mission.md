@@ -8,12 +8,12 @@
 
 ---
 
-### **문제 1 (index.html): Contact 링크를 너의 이메일 주소로 바꿔봐.**
+### **문제 1 (index.html): Contact 링크에 공개용 예시 이메일 주소를 사용해봐.**
 
 *   **어디를 봐야 해?** `mission/index.html` 파일을 열어봐.
-*   **뭘 해야 해?** `Contact`라고 쓰여있는 링크를 찾아서 `href` 속성 안에 있는 `mailto:____@gmail.com` 부분을 너의 실제 이메일 주소로 바꿔줘.
-*   **힌트:** `mailto:` 뒤에 바로 이메일 주소를 쓰면 돼.
-*   **예시:** `mailto:my-awesome-email@gmail.com`
+*   **뭘 해야 해?** `Contact`라고 쓰여있는 링크를 찾아서 `href` 속성 안에 있는 `mailto:contact@example.com`을 확인해. 공개 저장소에서는 개인 이메일로 바꾸지 마.
+*   **힌트:** `mailto:` 뒤에는 공개용 예시 주소를 쓰고, 실제 연락처는 비공개 배포 설정에서만 관리해.
+*   **예시:** `mailto:contact@example.com`
 
 ---
 

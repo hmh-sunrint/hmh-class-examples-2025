@@ -14,16 +14,16 @@
 
 ---
 
-### **문제 1 (index.html): Contact 링크를 너의 이메일 주소로 바꿔봐.**
+### **문제 1 (index.html): Contact 링크에 공개용 예시 이메일 주소를 사용해봐.**
 
-*   **설명:** `index.html` 파일에서 `mailto:` 링크를 너의 이메일 주소로 바꾸는 간단한 문제였지? 실제 웹사이트에서는 사용자들이 문의할 수 있도록 정확한 연락처를 제공하는 게 중요해.
+*   **설명:** `index.html` 파일에서 `mailto:` 링크에 공개용 예시 주소를 넣는 문제였지? 공개 저장소에는 개인 이메일을 넣지 말고, 실제 배포 환경에서만 담당자가 관리하는 공식 연락처로 교체해야 해.
 *   **코드:**
     \`\`\`html
     <!-- mission/index.html -->
-    <a class="btn" href="mailto:____@gmail.com" title="contact">Contact</a>
+    <a class="btn" href="mailto:contact@example.com" title="contact">Contact</a>
 
     <!-- answer/index.html -->
-    <a class="btn" href="mailto:your-email@gmail.com" title="contact">Contact</a>
+    <a class="btn" href="mailto:contact@example.com" title="contact">Contact</a>
     \`\`\`
 *   **핵심:** HTML에서 링크를 만들 때 `href` 속성을 쓰고, 이메일 링크는 `mailto:` 접두사를 쓴다는 걸 기억해둬.
 
